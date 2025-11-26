@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import {  getLatestVideosHandler, getVideoById, updateVideoProgress } from "../controllers/videoscontroller";
+import { getLatestVideosHandler, getProgress, getVideoById, updateVideoProgress } from "../controllers/videoscontroller";
 
 const router = express.Router();
 
@@ -10,8 +10,10 @@ router.get("/test", async (req: Request, res: Response) => {
 });
 
 router.get("/latest", getLatestVideosHandler);
-router.get("/:videoid",getVideoById);
+router.get("/:videoid", getVideoById);
 router.post("/progress", updateVideoProgress);
+router.post("/progress/get", getProgress);
+
 
 
 export default router;

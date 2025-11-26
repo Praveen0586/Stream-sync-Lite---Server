@@ -33,8 +33,11 @@ export const getLatestVideosHandler = async (req: Request, res: Response) => {
             );
 
         }
-        return res.json({ videos });
+        const [rows] = await sqldb.query(
+            "SELECT * FROM videos ORDER BY published_at DESC LIMIT 10"
+        );
 
+        return res.json({ videos: rows });
 
 
     } catch (error) {
@@ -66,6 +69,41 @@ export const getVideoById = async (req: Request, res: Response) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 };
+
+export const getProgress = async (req: Request, res: Response) => {
+    try {
+        console.log("getting Progress");
+        const { videoID, userID } = req.body;
+        if (!videoID || !userID)
+            return res.status(400).json({ error: "videoID and userID are required" });
+
+        const [rows]: any = await sqldb.execute(
+            "SELECT * FROM video_progress WHERE video_id = ? AND user_id = ?",
+            [videoID, userID]
+        );
+
+        if (!rows || rows.length === 0) {
+            return res.status(200).json({
+                userID,
+                videoID,
+                progress: 0,
+
+            });
+        }
+
+        const progressData = rows[0];
+        return res.status(200).json({
+            userID: progressData.user_id,
+            videoID: progressData.video_id,
+            progress: progressData.progress,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
 
 export const updateVideoProgress = async (req: Request, res: Response) => {
     try {

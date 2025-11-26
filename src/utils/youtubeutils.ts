@@ -32,7 +32,7 @@ export async function fetchLatestVideosFromYouTube(channelId: string): Promise<V
 
     if (videoIds.length === 0) return [];
 
-    // 2️⃣ Fetch durations
+    //  Fetch durations
     const detailsResponse = await axios.get<{ items: any[] }>("https://www.googleapis.com/youtube/v3/videos", {
         params: {
             id: videoIds.join(","),
@@ -47,7 +47,7 @@ export async function fetchLatestVideosFromYouTube(channelId: string): Promise<V
         durationMap[item.id] = parseISO8601Duration(item.contentDetails.duration);
     });
 
-    // 3️⃣ Return final cleaned data
+    //  Return final cleaned data
     return items
         .filter((item: any) => item.id.kind === "youtube#video")
         .map((item: any) => ({
