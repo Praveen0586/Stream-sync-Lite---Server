@@ -15,6 +15,7 @@ export const getLatestVideosHandler = async (req: Request, res: Response) => {
         }
 
         const videos: Video[] = await fetchLatestVideosFromYouTube(channelId as string);
+        console.log("hey Fetching by channel ID");
 
         for (const video of videos) {
             console.log(video.video_id);

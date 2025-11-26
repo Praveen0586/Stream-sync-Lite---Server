@@ -54,7 +54,7 @@ export async function fetchLatestVideosFromYouTube(channelId: string): Promise<V
             video_id: item.id.videoId,
             title: item.snippet.title,
             description: item.snippet.description,
-            thumbnail_url: item.snippet.thumbnails.default.url,
+            thumbnail_url: item.snippet.thumbnails.high?.url,
             channel_id: channelId,
             published_at: item.snippet.publishedAt,
             duration_seconds: durationMap[item.id.videoId] || 0,
