@@ -15,6 +15,7 @@ router.get("/test-sql", async (req: Request, res: Response) => {
     try {
         sqldb.query("select now()",);
         res.send("Database connection successful");
+        
     } catch (error) {
         res.status(500).send("Database connection failed");
     }

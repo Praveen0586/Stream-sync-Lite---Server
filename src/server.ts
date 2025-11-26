@@ -6,6 +6,8 @@ import application from "./app";
 const app = express();
 const PORT = 3000;
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", application);
 app.get("/", (req: Request, res: Response) => {
   res.send("🚀 TypeScript Node Server is running!");

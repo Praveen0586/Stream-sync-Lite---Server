@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 
 
 export const Register = async (req: Request, res: Response) => {
+    console.log("User Creation Started");
     const { name, email, password } = req.body;
 
 
@@ -30,7 +31,7 @@ export const Register = async (req: Request, res: Response) => {
 }
 
 export const Login = async (req: Request, res: Response) => {
-
+console.log("Login Started");
     const { email, password } = req.body;
 
     const userQuery = "Select * from users where email=?";
@@ -45,12 +46,14 @@ export const Login = async (req: Request, res: Response) => {
 
     const token = generateToken({ id: user.id, email: user.email });
     const RefreshToken = generateRefreshToken({ id: user.id })
+    console.log("User Created");
     res.status(200).json({
         "message": "Login successful",
+        "user": user,
         token,
         RefreshToken
     });
-
+console.log("Login Successful");
 
 
 
@@ -59,7 +62,6 @@ export const Login = async (req: Request, res: Response) => {
 }
 
 export const RefreshToken = async (req: Request, res: Response) => {
-
 
     const { refreshToken } = req.body;
 
@@ -76,3 +78,6 @@ export const RefreshToken = async (req: Request, res: Response) => {
         })
     })
 }
+
+
+
