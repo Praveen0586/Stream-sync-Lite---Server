@@ -1,2 +1,2 @@
 .env
-src/configs/firebase/serviceAccount.jsons
+src/configs/firebase/serviceAccount.json
