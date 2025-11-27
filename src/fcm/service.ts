@@ -11,16 +11,18 @@ export class FcmService {
     async deleteToken(userId: number, token: string) {
         await this.repo.deleteToken(userId, token);
     }
+async sendToUser(userId: number, title: string, body: string, metadata?: any) {
+    // 1️⃣ Create notification and get its ID
+    const notificationId: number = await this.repo.createNotification(userId, title, body, metadata);
 
-    async sendToUser(userId: number, title: string, body: string) {
-        const tokens = await this.repo.getUserTokens(userId);
-        if (tokens.length === 0) return;
+    // 2️⃣ Enqueue job
+    await this.repo.createNotificationJob({
+        notification_id: notificationId,
+        status: 'pending',
+        retries: 0
+    });
 
-        const message = {
-            tokens: tokens.map((t) => t.token),
-            notification: { title, body },
-        };
+    // 3️⃣ Worker (separate cron/interval) will pick this job and send via FCM
+}
 
-        await fcm.sendEachForMulticast(message);
-    }
 }
