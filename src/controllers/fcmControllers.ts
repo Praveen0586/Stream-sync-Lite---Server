@@ -41,6 +41,8 @@ export class FcmController {
   }
 
 
+  
+
   async getNotifications(req: Request, res: Response) {
     try {
       const userId = Number(req.query.userId);

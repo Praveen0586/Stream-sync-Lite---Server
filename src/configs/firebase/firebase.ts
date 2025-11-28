@@ -7,3 +7,4 @@ admin.initializeApp({
 });
 
 export const fcm = admin.messaging(); // let TS infer type
+
