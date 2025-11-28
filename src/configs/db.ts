@@ -10,4 +10,4 @@ dotenv.config();
     password: process.env.rdspassword,
     database: process.env.rdsdatabase
 })
-export default db;  
+export default db;
