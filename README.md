@@ -1,7 +1,7 @@
 # 🚀 StreamSync Lite Server — Setup & Run Guide
 
 This guide contains everything needed to run your Node.js + TypeScript backend in **development** and **production**.
-
+Note: Make sure to check out the [StreamSync Lite Android app repository](https://github.com/Praveen0586/Stream-sync--Lite-Android/) for the front-end code.
 ---
 
 # 📁 Project Structure
