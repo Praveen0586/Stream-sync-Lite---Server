@@ -43,6 +43,82 @@ Note: Make sure to check out the [StreamSync Lite Android app repository](https:
             youtubeutils.ts
 ```
 
+# 📌 API Documentation
+
+## 🔐 Authentication
+```
+
+  Method     Endpoint           Description
+  ---------- ------------------ -------------------------------
+  **POST**   `/auth/register`   Register a new user
+  **POST**   `/auth/login`      Log in and receive JWT tokens
+  **POST**   `/auth/refresh`    Refresh access token
+
+------------------------------------------------------------------------
+```
+## ⭐ Favorites
+```
+  ------------------------------------------------------------------------
+  Method             Endpoint                Description
+  ------------------ ----------------------- -----------------------------
+  **POST**           `/favorites/add`        Add a video to favorites
+
+  **DELETE**         `/favorites/remove`     Remove a video from favorites
+
+  **GET**            `/favorites/:user_id`   Get all favorite video IDs of
+                                             a user
+
+  **POST**           `/favorites/batch`      Fetch full video objects for
+                                             favorite IDs
+  ------------------------------------------------------------------------
+```
+------------------------------------------------------------------------
+
+## 👤 User / FCM Token
+```
+  ------------------------------------------------------------------------
+  Method             Endpoint                Description
+  ------------------ ----------------------- -----------------------------
+  **POST**           `/users/:id/fcmToken`   Register or update user's FCM
+                                             token
+
+  **DELETE**         `/users/:id/fcmToken`   Delete user's FCM token
+  ------------------------------------------------------------------------
+```
+------------------------------------------------------------------------
+
+## 🔔 Notifications
+```
+  -----------------------------------------------------------------------------
+  Method             Endpoint                     Description
+  ------------------ ---------------------------- -----------------------------
+  **POST**           `/notifications/send-test`   Send test notification
+                                                  (admin)
+
+  **POST**           `/notifications`             Send notification to users
+                                                  (admin)
+
+  **GET**            `/notifications`             Get notifications for user
+
+  **GET**            `/notifications/count`       Get unread notification count
+
+  **DELETE**         `/notifications/:id`         Delete a specific
+                                                  notification
+
+  **POST**           `/notifications/mark-read`   Mark notifications as read
+  -----------------------------------------------------------------------------
+```
+------------------------------------------------------------------------
+
+## 🎬 Videos
+```
+  Method     Endpoint                 Description
+  ---------- ------------------------ -------------------------------
+  **GET**    `/videos/latest`         Get the latest videos
+  **GET**    `/videos/:videoid`       Get video details by ID
+  **POST**   `/videos/progress`       Update user video progress
+  **POST**   `/videos/progress/get`   Get video progress for a user
+```
 ---
 
 # ⚙️ Requirements
