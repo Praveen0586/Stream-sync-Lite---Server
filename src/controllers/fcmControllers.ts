@@ -84,7 +84,9 @@ export class FcmController {
       console.error("Get Notifications Error:", err);
       res.status(500).json({ error: "Server error" });
     }
-  }async getNotificationCount(req: Request, res: Response) {
+  }
+  
+  async getNotificationCount(req: Request, res: Response) {
   try {
     const userId = Number(req.query.userId);
 
@@ -95,7 +97,7 @@ export class FcmController {
     const query = `
       SELECT COUNT(*) AS count
       FROM notifications
-      WHERE user_id = ? AND is_deleted = 0
+      WHERE user_id = ? AND is_deleted = 0 AND is_read = 0
     `;
     const params = [userId];
 
