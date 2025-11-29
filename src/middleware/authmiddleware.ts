@@ -13,6 +13,7 @@ export const authMiddleware =
             (req as any).user = decoded;
             next();
         } catch (error) {
+            console.log("Invalid tocken");
             res.status(400).send("Invalid token.");
 
         }
