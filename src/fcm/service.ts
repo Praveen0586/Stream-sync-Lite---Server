@@ -6,6 +6,8 @@ export class FcmService {
 
     async registerToken(userId: number, token: string, platform: string) {
         await this.repo.saveToken(userId, token, platform);
+        console.log(`Saving token for user ${userId}: ${token} (${platform})`);
+
     }
 
     async deleteToken(userId: number, token: string) {

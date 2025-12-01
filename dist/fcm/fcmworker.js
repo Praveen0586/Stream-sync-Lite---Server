@@ -15,7 +15,7 @@ async function processPendingJobs() {
             const tokens = await repo.getUserTokens(job.user_id);
             console.log("📱 Tokens found:", tokens.length);
             if (tokens.length > 0) {
-                await await firebase_1.fcm.sendEachForMulticast({
+                await  firebase_1.fcm.sendEachForMulticast({
                     tokens: tokens.map(t => t.token),
                     notification: {
                         title: job.title,

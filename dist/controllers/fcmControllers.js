@@ -12,6 +12,10 @@ class FcmController {
         const { id } = req.params;
         const { token, platform } = req.body;
         try {
+            console.log("🔔 FCM Register called:");
+            console.log("  userId:", id);
+            console.log("  token:", token);
+            console.log("  platform:", platform);
             await service.registerToken(Number(id), token, platform);
             return res.json({ success: true });
         }
