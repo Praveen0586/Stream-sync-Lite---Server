@@ -145,6 +145,11 @@ YOUTUBE_CHANNEL_ID=
 ```
 
 ---
+# ServiceAccount.json
+
+```
+make sure to paste your serviceAccount.json file in  ./src/configs/firebase/serviceAccount.json
+```
 
 # 🧩 package.json (Important Scripts)
 
