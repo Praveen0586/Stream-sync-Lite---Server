@@ -4,14 +4,41 @@ export class FcmRepository {
 
     
 
+    // async saveToken(userId: number, token: string, platform: string) {
+    //     const sql = `
+    //   INSERT INTO fcm_tokens (user_id, token, platform)
+    //   VALUES (?, ?, ?)
+    //   ON DUPLICATE KEY UPDATE token = VALUES(token);
+    // `;
+    //     await db.query(sql, [userId, token, platform]);
+    // }
+
     async saveToken(userId: number, token: string, platform: string) {
-        const sql = `
+    const sql = `
       INSERT INTO fcm_tokens (user_id, token, platform)
       VALUES (?, ?, ?)
       ON DUPLICATE KEY UPDATE token = VALUES(token);
     `;
-        await db.query(sql, [userId, token, platform]);
+    try {
+        console.log("📝 Saving FCM Token...");
+        console.log("  userId:", userId);
+        console.log("  token:", token.substring(0, 30) + "...");
+        console.log("  platform:", platform);
+        
+        const result = await db.query(sql, [userId, token, platform]);
+        
+        console.log("✅ Token saved to database successfully");
+        console.log("Result:", result);
+        
+        return result;
+    } catch (error: any) {
+        console.error("❌ Database Error saving token:", error.message);
+        console.error("SQL:", sql);
+        console.error("Full Error:", error);
+        throw error;
     }
+}
+
     async deleteToken(userId: number, token: string) {
         const sql = "DELETE FROM fcm_tokens WHERE user_id = ? AND token = ?";
         await db.query(sql, [userId, token]);

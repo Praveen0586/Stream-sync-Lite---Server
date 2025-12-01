@@ -4,11 +4,22 @@ import { fcm } from "../configs/firebase/firebase";
 export class FcmService {
     repo = new FcmRepository();
 
-    async registerToken(userId: number, token: string, platform: string) {
-        await this.repo.saveToken(userId, token, platform);
-        console.log(`Saving token for user ${userId}: ${token} (${platform})`);
+    // async registerToken(userId: number, token: string, platform: string) {
+    //     await this.repo.saveToken(userId, token, platform);
+    //     console.log(`Saving token for user ${userId}: ${token} (${platform})`);
 
+    // }
+    async registerToken(userId: number, token: string, platform: string) {
+    try {
+        console.log(`🔄 Attempting to save token for user ${userId}...`);
+        await this.repo.saveToken(userId, token, platform);
+        console.log(`✅ Token saved successfully for user ${userId}: ${token.substring(0, 30)}... (${platform})`);
+    } catch (error: any) {
+        console.error(`❌ Error saving token for user ${userId}:`, error.message);
+        console.error("Full error:", error);
+        throw error;
     }
+}
 
     async deleteToken(userId: number, token: string) {
         await this.repo.deleteToken(userId, token);
