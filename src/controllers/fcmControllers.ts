@@ -10,6 +10,10 @@ export class FcmController {
     const { token, platform } = req.body;
 
     try {
+      console.log("🔔 FCM Register called:");
+      console.log("  userId:", id);
+      console.log("  token:", token);
+      console.log("  platform:", platform);
       await service.registerToken(Number(id), token, platform);
       return res.json({ success: true });
     } catch (e) {
@@ -41,7 +45,7 @@ export class FcmController {
   }
 
 
-  
+
 
   async getNotifications(req: Request, res: Response) {
     try {
@@ -85,34 +89,34 @@ export class FcmController {
       res.status(500).json({ error: "Server error" });
     }
   }
-  
+
   async getNotificationCount(req: Request, res: Response) {
-  try {
-    const userId = Number(req.query.userId);
+    try {
+      const userId = Number(req.query.userId);
 
-    if (!userId) {
-      return res.status(400).json({ error: "userId is required" });
-    }
+      if (!userId) {
+        return res.status(400).json({ error: "userId is required" });
+      }
 
-    const query = `
+      const query = `
       SELECT COUNT(*) AS count
       FROM notifications
       WHERE user_id = ? AND is_deleted = 0 AND is_read = 0
     `;
-    const params = [userId];
+      const params = [userId];
 
-    const [rows] = await db.query(query, params);
+      const [rows] = await db.query(query, params);
 
-    return res.json({
-      success: true,
-      count: (rows as any[])[0].count || 0,
-    });
+      return res.json({
+        success: true,
+        count: (rows as any[])[0].count || 0,
+      });
 
-  } catch (err) {
-    console.error("Get Notification Count Error:", err);
-    res.status(500).json({ error: "Server error" });
+    } catch (err) {
+      console.error("Get Notification Count Error:", err);
+      res.status(500).json({ error: "Server error" });
+    }
   }
-}
 
   async adminside(req: Request, res: Response) {
     try {
@@ -149,45 +153,45 @@ export class FcmController {
   }
 
   async deleteNotification(req: Request, res: Response) {
-  try {
-    const notificationId = Number(req.params.id);
-    const userId = Number(req.query.userId);
+    try {
+      const notificationId = Number(req.params.id);
+      const userId = Number(req.query.userId);
 
-    if (!userId) return res.status(400).json({ success: false, error: "userId is required" });
+      if (!userId) return res.status(400).json({ success: false, error: "userId is required" });
 
-    const [result]: any = await db.query(
-      `DELETE FROM notifications WHERE id = ? AND user_id = ?`,
-      [notificationId, userId]
-    );
+      const [result]: any = await db.query(
+        `DELETE FROM notifications WHERE id = ? AND user_id = ?`,
+        [notificationId, userId]
+      );
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ success: false, error: "Notification not found" });
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, error: "Notification not found" });
+      }
+
+      return res.json({ success: true, message: "Notification deleted" });
+    } catch (err) {
+      console.error("Delete Notification Error:", err);
+      res.status(500).json({ success: false, error: "Server error" });
     }
-
-    return res.json({ success: true, message: "Notification deleted" });
-  } catch (err) {
-    console.error("Delete Notification Error:", err);
-    res.status(500).json({ success: false, error: "Server error" });
   }
-}
 
-async markAsRead(req: Request, res: Response) {
-  try {
-    const { userId, notificationIds } = req.body;
+  async markAsRead(req: Request, res: Response) {
+    try {
+      const { userId, notificationIds } = req.body;
 
-    if (!userId || !notificationIds || !Array.isArray(notificationIds)) {
-      return res.status(400).json({ success: false, error: "userId and notificationIds are required" });
+      if (!userId || !notificationIds || !Array.isArray(notificationIds)) {
+        return res.status(400).json({ success: false, error: "userId and notificationIds are required" });
+      }
+
+      const [result]: any = await db.query(
+        `UPDATE notifications SET is_read = 1 WHERE user_id = ? AND id IN (?)`,
+        [userId, notificationIds]
+      );
+
+      return res.json({ success: true, message: "Notifications marked as read" });
+    } catch (err) {
+      console.error("Mark Notifications Read Error:", err);
+      res.status(500).json({ success: false, error: "Server error" });
     }
-
-    const [result]: any = await db.query(
-      `UPDATE notifications SET is_read = 1 WHERE user_id = ? AND id IN (?)`,
-      [userId, notificationIds]
-    );
-
-    return res.json({ success: true, message: "Notifications marked as read" });
-  } catch (err) {
-    console.error("Mark Notifications Read Error:", err);
-    res.status(500).json({ success: false, error: "Server error" });
   }
-}
 }
